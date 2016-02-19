@@ -1,6 +1,6 @@
-specific_intersections <- function(data, first.col, last.col, intersections, order_mat,
+specific_intersections <- function(data, num_of_set, first.col, last.col, set_names, intersections, order_mat,
                                    aggregate, decrease, cut, mbar_color){
-  sets <- names(data[c(first.col:last.col)])
+  sets <- set_names
   keep <- unique(unlist(intersections))
   remove <- sets[which(!sets %in% keep)]
   remove <- which(names(data) %in% remove)
@@ -8,7 +8,7 @@ specific_intersections <- function(data, first.col, last.col, intersections, ord
     data <- data[-remove]
   }
   data <- count(data[keep])
-  sets <- names(data[1:length(keep)])
+  sets <- set_names[set_names %in% names(data[1:length(keep)])]
   data <- lapply(intersections, function(x){
     temp_sets <- unlist(x)
     x <- data[which(rowSums(data[1:length(keep)]) == length(temp_sets)), ]
@@ -57,5 +57,6 @@ specific_intersections <- function(data, first.col, last.col, intersections, ord
     Freqs$color <- mbar_color
   }
   Freqs <- na.omit(Freqs)
+  Freqs <- Freqs[,c(set_names,"freq","x","color")]
   return(Freqs)
 }

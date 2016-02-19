@@ -121,12 +121,12 @@ upset <- function(data, nsets = 5, nintersects = 40, sets = NULL, set.metadata =
   }
   
   if(is.null(intersections) == F){
-    All_Freqs <- specific_intersections(data, first.col, last.col, intersections, order.by, group.by, decreasing,
-                           cutoff, main.bar.color)
-    Set_names <- unique((unlist(intersections)))
+    Set_names <- sets[sets %in% unique((unlist(intersections)))]
     Sets_to_remove <- Remove(data, first.col, last.col, Set_names)
     New_data <- Wanted(data, Sets_to_remove)
     Num_of_set <- Number_of_sets(Set_names)
+    All_Freqs <- specific_intersections(New_data, Num_of_set, first.col, last.col, Set_names, intersections, order.by, group.by, decreasing,
+                                        cutoff, main.bar.color)
   }
   else if(is.null(intersections) == T){
   Set_names <- sets
